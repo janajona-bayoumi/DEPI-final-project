@@ -1,13 +1,27 @@
 :root {
-  --primary: #0b5d6b;
-  --accent: #1fa2a6;
+  --bs-primary: #0b5d6b;
+  --bs-primary-rgb: 11, 93, 107;
   --bg: #f6fafb;
-  --text: #1f2937;
 }
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: var(--primary); color: #fff; }
-.navbar-links { display: flex; gap: 16px; }
-.navbar a { color: #fff; text-decoration: none; opacity: .8; }
-.navbar a.active { opacity: 1; font-weight: 700; border-bottom: 2px solid var(--accent); }
-.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+body { background: var(--bg); }
+h1, h2, h3 { color: var(--bs-primary); }
+
+.btn-primary {
+  --bs-btn-bg: #0b5d6b;
+  --bs-btn-border-color: #0b5d6b;
+  --bs-btn-hover-bg: #084852;
+  --bs-btn-hover-border-color: #084852;
+  --bs-btn-active-bg: #084852;
+  --bs-btn-active-border-color: #084852;
+  --bs-btn-disabled-bg: #0b5d6b;
+  --bs-btn-disabled-border-color: #0b5d6b;
+}
+.btn-outline-primary {
+  --bs-btn-color: #0b5d6b;
+  --bs-btn-border-color: #0b5d6b;
+  --bs-btn-hover-bg: #0b5d6b;
+  --bs-btn-hover-border-color: #0b5d6b;
+  --bs-btn-active-bg: #0b5d6b;
+  --bs-btn-active-border-color: #0b5d6b;
+}
