@@ -20,6 +20,7 @@ import {
   loadRatings,
   saveRatings,
   queueKey,
+  clearAll,
 } from "./storage";
 
 // Simulates network latency so loading states are visible.
@@ -71,6 +72,20 @@ const emptyQueue = (doctorId, date) => ({
   currentNumber: 0,
   lastTicket: 0,
 });
+
+// Counts 'booked' tickets still waiting. Cancelled tickets never inflate the number.
+// With ticketNumber: only tickets ahead of it (currentNumber < ticket < ticketNumber).
+// Without: every booked ticket after currentNumber.
+function countWaiting(appointments, queue, ticketNumber) {
+  return appointments.filter(
+    (a) =>
+      a.doctorId === queue.doctorId &&
+      a.date === queue.date &&
+      a.status === APPOINTMENT_STATUS.BOOKED &&
+      a.ticketNumber > queue.currentNumber &&
+      (ticketNumber === undefined || a.ticketNumber < ticketNumber),
+  ).length;
+}
 
 const newId = () =>
   `a_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
@@ -182,14 +197,20 @@ export function getBookedSlots(doctorId, date) {
 
 /**
  * Queue state for one doctor on one date.
+ * `waiting` counts only 'booked' tickets: pass the patient's ticketNumber to get
+ * the number of patients ahead of them; omit it to get everyone still waiting.
+ * Estimated wait = waiting × doctor.slotDuration.
  * @param {string} doctorId
  * @param {string} date 'YYYY-MM-DD'
+ * @param {number} [ticketNumber] the patient's ticket
  * @returns {Promise<import('./models').Queue>}
  */
-export function getQueue(doctorId, date) {
+export function getQueue(doctorId, date, ticketNumber) {
   const queue =
     loadQueues()[queueKey(doctorId, date)] ?? emptyQueue(doctorId, date);
-  return delay({ ...queue });
+  const ticket = Number.isInteger(ticketNumber) ? ticketNumber : undefined;
+  const waiting = countWaiting(loadAppointments(), queue, ticket);
+  return delay({ ...queue, waiting });
 }
 
 /**
@@ -232,7 +253,7 @@ export function callNext(doctorId, date) {
   queues[key] = queue;
   saveQueues(queues);
   saveAppointments(appointments);
-  return delay({ ...queue });
+  return delay({ ...queue, waiting: countWaiting(appointments, queue) });
 }
 
 // ------------------------------------------------------------
@@ -306,4 +327,17 @@ export function rateAppointment(appointmentId, rating) {
   saveRatings(ratings);
   saveAppointments(appointments);
   return delay({ ok: true, rating });
+}
+
+// ------------------------------------------------------------
+// Demo helpers (mock only — removed when the backend arrives)
+// ------------------------------------------------------------
+
+/**
+ * Clears all MediQueue data (appointments, queues, ratings) so the demo can restart.
+ * @returns {Promise<{ok:true}>}
+ */
+export function resetDemoData() {
+  clearAll();
+  return delay({ ok: true });
 }

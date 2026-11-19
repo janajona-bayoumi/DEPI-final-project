@@ -39,29 +39,32 @@
  * @property {string} date
  * @property {number} currentNumber  ticket currently being served (0 = not started)
  * @property {number} lastTicket     last issued ticket number
+ * @property {number} waiting        'booked' tickets still waiting (cancelled/done never counted).
+ *                                   With a ticketNumber: only those ahead of that ticket.
+ *                                   Without: everyone still waiting in this queue.
  */
 
 export const APPOINTMENT_STATUS = {
-  BOOKED: 'booked',
-  IN_PROGRESS: 'in-progress',
-  DONE: 'done',
-  CANCELLED: 'cancelled',
-}
+  BOOKED: "booked",
+  IN_PROGRESS: "in-progress",
+  DONE: "done",
+  CANCELLED: "cancelled",
+};
 
 // Error codes returned as { ok: false, error } by the services.
 export const BOOKING_ERRORS = {
-  CONFLICT: 'CONFLICT',   // slot already booked
-  PAST: 'PAST',           // time is in the past
-  INVALID: 'INVALID',     // bad input, unknown doctor, outside working hours, or action not allowed
-  NOT_FOUND: 'NOT_FOUND', // appointment id does not exist
-}
+  CONFLICT: "CONFLICT", // slot already booked
+  PAST: "PAST", // time is in the past
+  INVALID: "INVALID", // bad input, unknown doctor, outside working hours, or action not allowed
+  NOT_FOUND: "NOT_FOUND", // appointment id does not exist
+};
 
 export const SPECIALTIES = [
-  'Cardiology',
-  'Pediatrics',
-  'Orthopedics',
-  'Dermatology',
-  'Ophthalmology',
-  'Internal Medicine',
-  'ENT',
-]
+  "Cardiology",
+  "Pediatrics",
+  "Orthopedics",
+  "Dermatology",
+  "Ophthalmology",
+  "Internal Medicine",
+  "ENT",
+];

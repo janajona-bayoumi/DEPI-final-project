@@ -40,3 +40,34 @@ export const loadRatings = () => read(KEYS.RATINGS, {});
 export const saveRatings = (map) => write(KEYS.RATINGS, map);
 
 export const queueKey = (doctorId, date) => `${doctorId}_${date}`;
+
+// Removes only MediQueue data (not other localStorage keys). Used by resetDemoData().
+export function clearAll() {
+  try {
+    Object.values(KEYS).forEach((key) => localStorage.removeItem(key));
+  } catch {
+    // storage blocked — nothing to clear
+  }
+}
+
+/**
+ * Listen for data changes made in ANOTHER browser tab (the browser's `storage` event
+ * does not fire in the tab that made the change).
+ * Use it to refresh the UI, e.g. the patient's /queue page when staff calls the next patient.
+ *
+ * @param {() => void} callback  called when appointments, queues or ratings change
+ * @returns {() => void}         unsubscribe function (use it in a React effect cleanup)
+ *
+ * @example
+ * useEffect(() => subscribe(() => refetchQueue()), [])
+ */
+export function subscribe(callback) {
+  if (typeof window === "undefined") return () => {};
+  const watched = Object.values(KEYS);
+  const handler = (event) => {
+    // event.key === null means localStorage.clear() was called
+    if (event.key === null || watched.includes(event.key)) callback();
+  };
+  window.addEventListener("storage", handler);
+  return () => window.removeEventListener("storage", handler);
+}
