@@ -42,24 +42,26 @@
  */
 
 export const APPOINTMENT_STATUS = {
-  BOOKED: "booked",
-  IN_PROGRESS: "in-progress",
-  DONE: "done",
-  CANCELLED: "cancelled",
-};
+  BOOKED: 'booked',
+  IN_PROGRESS: 'in-progress',
+  DONE: 'done',
+  CANCELLED: 'cancelled',
+}
 
+// Error codes returned as { ok: false, error } by the services.
 export const BOOKING_ERRORS = {
-  CONFLICT: "CONFLICT", // slot already booked
-  PAST: "PAST", // time is in the past
-  INVALID: "INVALID", // missing data or unknown doctor
-};
+  CONFLICT: 'CONFLICT',   // slot already booked
+  PAST: 'PAST',           // time is in the past
+  INVALID: 'INVALID',     // bad input, unknown doctor, outside working hours, or action not allowed
+  NOT_FOUND: 'NOT_FOUND', // appointment id does not exist
+}
 
 export const SPECIALTIES = [
-  "Cardiology",
-  "Pediatrics",
-  "Orthopedics",
-  "Dermatology",
-  "Ophthalmology",
-  "Internal Medicine",
-  "ENT",
-];
+  'Cardiology',
+  'Pediatrics',
+  'Orthopedics',
+  'Dermatology',
+  'Ophthalmology',
+  'Internal Medicine',
+  'ENT',
+]
