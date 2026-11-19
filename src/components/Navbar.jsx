@@ -9,11 +9,15 @@ const links = [
 
 export default function Navbar() {
   return (
-    <nav className="navbar">
-      <span className="navbar-logo">MediQueue</span>
-      <div className="navbar-links">
+    <nav className="navbar navbar-expand navbar-dark bg-primary px-3">
+      <span className="navbar-brand fw-bold">MediQueue</span>
+      <div className="navbar-nav ms-auto">
         {links.map(l => (
-          <NavLink key={l.to} to={l.to} className={({ isActive }) => (isActive ? 'active' : '')}>
+          <NavLink
+            key={l.to}
+            to={l.to}
+            className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}
+          >
             {l.label}
           </NavLink>
         ))}
