@@ -1,8 +1,8 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getDoctors } from "../services";
 import DoctorList from "../components/DoctorList";
 import SpecialtyFilter from "../components/SpecialtyFilter";
+import SlotCalendar from "../components/SlotCalendar";
 
 export default function Book({ onDoctorSelect }) {
   const [doctors, setDoctors] = useState([]);
@@ -10,10 +10,20 @@ export default function Book({ onDoctorSelect }) {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const calendarRef = useRef(null);
 
   useEffect(() => {
     loadDoctors();
   }, []);
+
+  useEffect(() => {
+    if (selectedDoctor) {
+      calendarRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [selectedDoctor]);
 
   async function loadDoctors(specialty = "") {
     setLoading(true);
@@ -55,16 +65,11 @@ export default function Book({ onDoctorSelect }) {
   return (
     <main className="min-vh-100 bg-light">
       <section className="container py-5">
-
         {/* Section Heading */}
         <div className="mb-4">
-          <span className="text-primary fw-bold small">
-            OUR SPECIALISTS
-          </span>
+          <span className="text-primary fw-bold small">OUR SPECIALISTS</span>
 
-          <h2 className="fw-bold mt-2 mb-2">
-            Meet Our Doctors
-          </h2>
+          <h2 className="fw-bold mt-2 mb-2">Meet Our Doctors</h2>
 
           <p className="text-secondary">
             Choose from our qualified medical professionals.
@@ -82,16 +87,11 @@ export default function Book({ onDoctorSelect }) {
         {/* Doctors List */}
         {loading ? (
           <div className="d-flex flex-column align-items-center justify-content-center py-5">
-            <div
-              className="spinner-border text-primary mb-3"
-              role="status"
-            >
+            <div className="spinner-border text-primary mb-3" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
 
-            <p className="text-secondary mb-0">
-              Loading doctors...
-            </p>
+            <p className="text-secondary mb-0">Loading doctors...</p>
           </div>
         ) : error ? (
           <div className="alert alert-danger text-center">
@@ -110,6 +110,11 @@ export default function Book({ onDoctorSelect }) {
             onSelect={handleSelectDoctor}
             onReset={handleReset}
           />
+        )}
+        {selectedDoctor && (
+          <div className="mt-5" ref={calendarRef}>
+            <SlotCalendar doctor={selectedDoctor} />
+          </div>
         )}
       </section>
     </main>

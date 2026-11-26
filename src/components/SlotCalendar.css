@@ -1,0 +1,134 @@
+.slot-calendar {
+  --fc-border-color: #e9ecef;
+  --fc-today-bg-color: #f1f8f9;
+  --fc-neutral-bg-color: #f8f9fa;
+  --fc-now-indicator-color: #dc3545;
+  --fc-button-bg-color: #0b5d6b;
+  --fc-button-border-color: #0b5d6b;
+  --fc-button-hover-bg-color: #094c58;
+  --fc-button-hover-border-color: #094c58;
+  --fc-button-active-bg-color: #073b44;
+  --fc-button-active-border-color: #073b44;
+  border-radius: 16px;
+}
+
+.slot-calendar .fc-toolbar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.slot-calendar .fc-button {
+  text-transform: capitalize;
+  font-size: 0.85rem;
+  box-shadow: none !important;
+}
+
+.slot-calendar .fc-scrollgrid {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.slot-calendar .fc-col-header-cell {
+  background: #f8f9fa;
+  padding: 0.6rem 0;
+}
+
+.slot-calendar .fc-col-header-cell-cushion {
+  color: #495057;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.slot-calendar .fc-timegrid-slot {
+  height: 2.4rem;
+}
+
+.slot-calendar .fc-timegrid-slot-label-cushion {
+  font-size: 0.75rem;
+  color: #868e96;
+}
+
+.slot-calendar .fc-event {
+  margin: 1px 4px;
+  border: 0;
+  border-radius: 6px;
+  font-size: 0.78rem;
+}
+
+.slot-calendar .fc-event-main-frame {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 4px;
+}
+
+.slot-calendar .fc-event-title-container {
+  flex-grow: 0;
+}
+
+.slot-calendar .slot-available {
+  --fc-event-text-color: #0f5132;
+  background: #e7f5f0;
+  color: #0f5132;
+  border-left: 3px solid #198754;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.slot-calendar .slot-available .fc-event-main {
+  color: #0f5132;
+  font-weight: 500;
+}
+
+.slot-calendar .slot-available:hover {
+  --fc-event-text-color: #fff;
+  background: #198754;
+}
+
+.slot-calendar .slot-available:hover .fc-event-main {
+  color: #fff;
+}
+
+.slot-calendar .slot-booked {
+  --fc-event-text-color: #868e96;
+  background: #f1f3f5;
+  color: #868e96;
+  border-left: 3px solid #ced4da;
+  cursor: not-allowed;
+}
+
+.slot-calendar .slot-booked .fc-event-main {
+  color: #868e96;
+}
+
+.slot-legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+}
+
+.legend-available {
+  background: #198754;
+}
+
+.legend-booked {
+  background: #ced4da;
+}
+
+@media (max-width: 576px) {
+  .slot-calendar .fc-toolbar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
